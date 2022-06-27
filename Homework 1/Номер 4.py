@@ -5,15 +5,12 @@ def bananas(s) -> set:
     result = set()
     check = 'banana'
     t = len(s) - len(check)
-    A = list(combinations((_ for _ in range(len(s))), t))
-    for inst in A:
-        inst = set(inst)
-        tmp_st = ''
-        for i in range(len(s)):
-            if i in inst:
-                tmp_st += '-'
-            else:
-                tmp_st += s[i]
-        if check == tmp_st.translate({ord('-'): None}):
-            result.add(tmp_st)
+    for inst in combinations((_ for _ in range(len(s))), t):
+        a = list(s)
+        for i in inst:
+            a[i] = '-'
+        a = ''.join(a)
+        if check == a.replace('-', ''):
+            result.add(a)
     return result
+

@@ -1,10 +1,7 @@
 def zeros(n):
-    answer = float('inf')
-    primfac = [2, 5]
-    for check_n in primfac:
-        check = 0
-        while n / check_n >= 1:
-            check += int(n / check_n)
-            check_n *= check_n
-        answer = min(answer, check)
-    return answer
+    zeros_n = 0
+    while n // 5 != 0:
+        zeros_n = zeros_n + n // 5
+        n = n // 5
+    return zeros_n
+
