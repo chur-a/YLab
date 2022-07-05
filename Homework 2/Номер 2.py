@@ -4,7 +4,7 @@ from random import choice
 def create_board():
     row = []
     for n in range(1, 101):
-        FREE_SQUARES.add(n)
+        CONTINUE_SQUARES.add(n)
         row.append(str(n).zfill(2))
         if len(row) == 10:
             MATRIX.append(row)
@@ -29,7 +29,8 @@ def player_input():
             if input_square < 1 or input_square > 100 or MATRIX[i_player][j_player] in 'X O ':
                 raise ValueError
             MATRIX[i_player][j_player] = 'X '
-            FREE_SQUARES.remove(input_square)
+            CONTINUE_SQUARES.discard(input_square)
+            LOOSING_SQUARES.discard(input_square)
             return i_player, j_player
         except ValueError:
             print_board()
@@ -38,15 +39,21 @@ def player_input():
 
 
 def computer_input():
-    square = choice(list(FREE_SQUARES))
-    FREE_SQUARES.remove(square)
-    if square % 10:
-        i_comp, j_comp = square//10, square - square//10*10 - 1
-    else:
-        i_comp, j_comp = square//10 - 1, square - square//10*10 - 1
-    MATRIX[i_comp][j_comp] = 'O '
-    return i_comp, j_comp
-
+    while True:
+        square = (choice(list(CONTINUE_SQUARES)) if CONTINUE_SQUARES else choice(list(LOOSING_SQUARES)))   
+        if square % 10:
+            i_comp, j_comp = square//10, square - square//10*10 - 1
+        else:
+            i_comp, j_comp = square//10 - 1, square - square//10*10 - 1
+        MATRIX[i_comp][j_comp] = 'O '
+        check_l = check_lines(i_comp, j_comp)
+        if not CONTINUE_SQUARES or all('O ' * 5 not in line for line in check_l):
+            CONTINUE_SQUARES.discard(square)
+            return i_comp, j_comp
+        elif any('O ' * 5 in line for line in check_l):
+            LOOSING_SQUARES.add(square)
+            CONTINUE_SQUARES.remove(square)
+            MATRIX[i_comp][j_comp] = str(square)
 
 def diagonals(i, j):
     first_d = []
@@ -63,6 +70,11 @@ def diagonals(i, j):
         j_s -= 1
     return first_d, second_d
 
+
+def check_lines(i, j):
+    first_d, second_d = diagonals(i, j)
+    return [''.join(MATRIX[i]), ''.join(MATRIX[k][j] for k in range(9)),
+            ''.join(first_d), ''.join(second_d)]
 
 def check_end_game(i, j):
     first_d, second_d = diagonals(i, j)
@@ -89,7 +101,8 @@ def check_tie():
         
 
 MATRIX = []
-FREE_SQUARES = set()   
+CONTINUE_SQUARES = set()
+LOOSING_SQUARES = set()
 RUN_GAME = True
         
 create_board()

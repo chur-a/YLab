@@ -22,3 +22,6 @@ def short_path(points: List[Tuple[int, int]]):
             path, path_length = check, inst_length
     return path, path_length
 
+
+print(short_path([(0, 2), (2, 5), (5, 2), (6, 6), (8, 3)]))
+
