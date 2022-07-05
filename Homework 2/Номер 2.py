@@ -78,6 +78,16 @@ def check_end_game(i, j):
             return True
         
 
+def check_tie():
+    for raw in MATRIX:
+        for i in range(len(raw)):
+            if raw[i] not in 'X O ':
+                return False
+    print_board()
+    print('Ничья')
+    return True
+        
+
 MATRIX = []
 FREE_SQUARES = set()   
 RUN_GAME = True
@@ -89,4 +99,6 @@ while RUN_GAME:
     for i_check, j_check in [(i_player, j_player), (i_comp, j_comp)]:
         if check_end_game(i_check, j_check):
             RUN_GAME = False
+    if check_tie():
+        RUN_GAME = False
         
