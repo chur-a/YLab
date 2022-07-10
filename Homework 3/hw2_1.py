@@ -12,7 +12,8 @@ class CyclicIterator:
             self.i = -1
         self.i += 1
         return self.iterable[self.i]
-                  
+
+
 cyclic_iterator = CyclicIterator(range(3))
 for i in cyclic_iterator:
     print(i)
