@@ -3,7 +3,7 @@ from typing import List
 
 class MassMedia:
     
-    def __init__(self, TV=False, newspapers=False, planet_coord=None):
+    def __init__(self, TV=False, newspapers=False, planet_coord: List[float] = None):
         self.TV = TV
         self.newspapers = newspapers
         self.planet_coord = planet_coord
@@ -28,7 +28,7 @@ class MassMedia:
     def simple_news(self, hero, place):
         print(f'{hero.name} saved the {place.name}!')
         
-    def message_to_planet(self, hero, place, planet_coord: List[float]):
+    def message_to_planet(self, hero, place, planet_coord):
         print(f"Message to the planet with coordinates: {planet_coord}. {hero.name} saved the {place.name}! "
               "It's time to celebrate")
     
