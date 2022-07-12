@@ -9,7 +9,7 @@ def repeat_func(call_count, start_sleep_time, factor, border_sleep_time):
                 print(f"Запуск номер {i+1}. Ожидание {t} секунд.")
                 sleep(t)
                 func()
-                t *= pow(2, factor)
+                t *= factor
                 if t > border_sleep_time:
                     t = border_sleep_time
                 i += 1
@@ -17,7 +17,7 @@ def repeat_func(call_count, start_sleep_time, factor, border_sleep_time):
     return decorator
 
 
-@repeat_func(3, 1, 2, 12)
+@repeat_func(6, 1, 2, 12)
 def pass_func():
     pass
 
